@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
-import './HallOfFame.css'
+import PropTypes from 'prop-types'
 
+import './HallOfFame.css'
 
 const HallOfFame = ({ entries }) => (
   <table className="hallOfFame">
     <tbody>
-      {entries.map(({id, date, guesses, player}) => (
-          <tr key={id}>
-            <td className="date">{date}</td>
-            <td className="guesses">{guesses}</td>
-            <td className="player">{player}</td>
-          </tr>
+      {entries.map(({ date, guesses, id, player }) => (
+        <tr key={id}>
+          <td className="date">{date}</td>
+          <td className="guesses">{guesses}</td>
+          <td className="player">{player}</td>
+        </tr>
       ))}
     </tbody>
   </table>
@@ -22,12 +22,12 @@ HallOfFame.propTypes = {
       date: PropTypes.string.isRequired,
       guesses: PropTypes.number.isRequired,
       id: PropTypes.number.isRequired,
-      player: PropTypes.string.isRequired
+      player: PropTypes.string.isRequired,
     })
-  ).isRequired
+  ).isRequired,
 }
 
-export default HallOfFame;
+export default HallOfFame
 
 // == Internal helpers ==============================================
 
@@ -38,19 +38,19 @@ export const FAKE_HOF = [
   { id: 0, guesses: 48, date: '14/10/2017', player: 'Marc' },
 ]
 
-const HOF_KEY = '::Memory::HallofFame';
-const HOF_MAX_SIZE = 10;
+const HOF_KEY = '::Memory::HallofFame'
+const HOF_MAX_SIZE = 10
 
 export function saveHOFEntry(entry, onStored) {
   entry.date = new Date().toLocaleDateString()
-  entry.id = Date.now();
+  entry.id = Date.now()
 
-  const entries = JSON.parse(localStorage.getItem(HOF_KEY) || '[]');
+  const entries = JSON.parse(localStorage.getItem(HOF_KEY) || '[]')
   const insertionPoint = entries.findIndex(
     ({ guesses }) => guesses >= entry.guesses
   )
 
-  if (insertionPoint === 1) {
+  if (insertionPoint === -1) {
     entries.push(entry)
   } else {
     entries.splice(insertionPoint, 0, entry)
@@ -59,7 +59,6 @@ export function saveHOFEntry(entry, onStored) {
     entries.splice(HOF_MAX_SIZE, entries.length)
   }
 
-  localStorage.setItem(HOF_MAX_SIZE, JSON.stringify(entries))
+  localStorage.setItem(HOF_KEY, JSON.stringify(entries))
   onStored(entries)
 }
-

@@ -77,8 +77,8 @@ class App extends Component {
     this.handleNewPairClosedBy(index);
   }
 
-  displayHallOfFame = (HallOfFame) => {
-    this.setState({ HallOfFame })
+  displayHallOfFame = (hallOfFame) => {
+    this.setState({ hallOfFame })
   }
   render() {
     const { cards, guesses, hallOfFame, matchedCardIndices } = this.state;
